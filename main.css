@@ -147,7 +147,17 @@ html, body {
     margin: 0 auto;
 }
 
-@media only screen and (max-width: 812px) {
+@media(max-width: 768px) {
+    body{
+        height: 100vh;
+    }
+    #app, .unset{
+        min-width: 100%;
+        min-height: 100%;
+        background-repeat:no-repeat;
+        background-size: auto 100vh;
+        background-position:center;
+    }
     #search_button, #menu_button{
         width: 10%;
         font-size: 2em;
