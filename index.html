@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Weather App</title>
+	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Grabs the closest Google font I could find -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="main.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app" class="unset">
+        <div id="header">
+            <div id="nav">
+                <button id="menu_button" v-on:click="showMenu = !showMenu">&#9776;</button>
+                <span id="city" v-show="!showForm">{{ location.title }}</span>
+                <input type="text" name="location" id="location_search" v-show="showForm" v-on:input="handleInput">
+                <button id="search_button" v-on:click="showForm = !showForm">+</button>
+                <div id="locations_list" v-show="showList, showForm">
+                    <span v-for="loc in locations" class="location" v-show="showList, showForm" v-on:click="handleLocation(loc)">
+                        {{ loc.title }}
+                    </span>
+                </div>
+            </div>
+            <span id="date_time" v-show="contentReady">{{ todays_weather.dateTime.weekday }} {{ todays_weather.dateTime.hour }}:{{ todays_weather.dateTime.minute }} {{ todays_weather.dateTime.dayPeriod }}</span>
+        </div>
+        <div id="menu" v-show="showMenu">
+            <span v-for="loc in stored_locations" v-show="showMenu" class="stored_location" v-on:click="handleLocation(loc)">
+                {{ loc.title }}
+            </span>
+        </div>
+        <div id="content" v-show="contentReady">
+            <div id="weather_main">
+                <img id="main_weather_icon" v-bind:src="imageUrl(todays_weather.weather_state, todays_weather.dateTime, true)" className="weather_icon" alt="weather_icon" />
+                <span id="weather_state">{{ todays_weather.weather_state }}</span>
+                <br />
+                <span id="current_temp" class="main_temps">{{ todays_weather.temp }}&#176;</span>
+                <span id="high" class="main_temps">{{ todays_weather.max_temp }}&#176;</span>
+                <span id="low" class="low main_temps">{{ todays_weather.min_temp }}&#176;</span>
+                <hr>
+            </div>
+            <div id="weather_details">
+                <div class="detail_row">
+                    <div id="air_pressure">
+                        <span class="detail_label">Air Pressure</span>
+                        <span class="detail_value">{{ todays_weather.air_pressure }} inHg</span>
+                    </div>
+                    <div id="humidity">
+                        <span class="detail_label">Humidity</span>
+                        <span class="detail_value">{{ todays_weather.humidity }} %</span>
+                    </div>
+                </div>
+                <div class="detail_row">
+                    <div id="wind">
+                        <span class="detail_label">Wind</span>
+                        <span class="detail_value">{{ todays_weather.wind.direction }} {{ todays_weather.wind.speed }} mph</span>
+                    </div>
+                    <div id="visibility">
+                        <span class="detail_label">Visibility</span>
+                        <span class="detail_value">{{ todays_weather.visibility }} mi</span>
+                    </div>
+                </div>
+            </div>
+            <div id="five_day">
+                <hr>
+                <div v-for="day in five_day" class="five_day">
+                    <span class="five_day_dateTime">{{ day.dateTime.weekday }}</span>
+                    <img class="five_day_icon" v-bind:src="imageUrl(day.weather_state, day.dateTime, false)" className="weather_icon_small" alt="weather_icon" />
+                    <span class="five_day_temp">{{ day.max_temp }}&#176;</span>
+                    <span class="low five_day_temp">{{ day.min_temp }}&#176;</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
