@@ -13,11 +13,15 @@
     <div id="app" class="unset">
         <div id="header">
             <div id="nav">
+                <!-- Header information, and nav buttons -->
                 <button id="menu_button" v-on:click="showMenu = !showMenu">&#9776;</button>
                 <span id="city" v-show="!showForm">{{ location.title }}</span>
+                <!-- Calls method on the input event, changes with most every key stroke -->
                 <input type="text" name="location" id="location_search" v-show="showForm" v-on:input="handleInput">
                 <button id="search_button" v-on:click="showForm = !showForm">+</button>
                 <div id="locations_list" v-show="showList, showForm">
+                    <!-- Spawns a div for every location in the array variable given, then displays every array element with its title attribute -->
+                    <!-- Will only show when showList and showForm are true -->
                     <span v-for="loc in locations" class="location" v-show="showList, showForm" v-on:click="handleLocation(loc)">
                         {{ loc.title }}
                     </span>
@@ -26,12 +30,14 @@
             <span id="date_time" v-show="contentReady">{{ todays_weather.dateTime.weekday }} {{ todays_weather.dateTime.hour }}:{{ todays_weather.dateTime.minute }} {{ todays_weather.dateTime.dayPeriod }}</span>
         </div>
         <div id="menu" v-show="showMenu">
+            <!-- Same as locations list but for menu items -->
             <span v-for="loc in stored_locations" v-show="showMenu" class="stored_location" v-on:click="handleLocation(loc)">
                 {{ loc.title }}
             </span>
         </div>
         <div id="content" v-show="contentReady">
             <div id="weather_main">
+                <!-- This section holds all the primary information about weather on the current date -->
                 <img id="main_weather_icon" v-bind:src="imageUrl(todays_weather.weather_state, todays_weather.dateTime, true)" className="weather_icon" alt="weather_icon" />
                 <span id="weather_state">{{ todays_weather.weather_state }}</span>
                 <br />
@@ -41,6 +47,7 @@
                 <hr>
             </div>
             <div id="weather_details">
+                <!-- This section holds all the secondary information about weather on the current date -->
                 <div class="detail_row">
                     <div id="air_pressure">
                         <span class="detail_label">Air Pressure</span>
@@ -63,8 +70,10 @@
                 </div>
             </div>
             <div id="five_day">
+                <!-- This section holds all the information about weather for the next 5 days -->
                 <hr>
                 <div v-for="day in five_day" class="five_day">
+                    <!-- Renders out elements for every element in the five_day array -->
                     <span class="five_day_dateTime">{{ day.dateTime.weekday }}</span>
                     <img class="five_day_icon" v-bind:src="imageUrl(day.weather_state, day.dateTime, false)" className="weather_icon_small" alt="weather_icon" />
                     <span class="five_day_temp">{{ day.max_temp }}&#176;</span>
