@@ -162,7 +162,8 @@ let app = new Vue({
                          * BUG - Currently, background images are not rendering on mobile devices. Using the chrome virtual mobile device I can check that the background will render responsively. But I am missing some CSS to render the images properly. Ideally, there would be multiple sets of the images at varying resolutions (I think that is the issue with why they won't display). I left the media assets alone though, unsure if it was within the paramters of the test to make more.
                          */
                         const appDOM = document.querySelector("#app");
-                        appDOM.style.backgroundImage = "url('" + app.gradientUrl() + "')";
+                        //appDOM.style.backgroundImage = "url('/" + app.gradientUrl() + "')";
+                        appDOM.style.backgroundImage = `url('https://people.rit.edu/txc1321/WeatherApp/${app.gradientUrl()}')`;
                         //toggle on the DOM content
                         app.contentReady=true;
                     });//end getForecast
@@ -218,7 +219,7 @@ let app = new Vue({
                         url = "Cloudy " + url;
                     }
                     
-                    return "/media/gradients/" + url;
+                    return "media/gradients/" + url;
                 }
 		} // end methods
 });
